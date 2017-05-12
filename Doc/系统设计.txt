@@ -1,0 +1,100 @@
+
+需求分析
+	基本功能：
+		用户注册需要使用邮箱注册, 接受邮箱验证码后可以注册成功（注册页面 登录页面 可以合并）
+		初始化为用户提供100$
+		首页展示最新更新书籍 热门书籍 优惠书籍 免费书籍等板块（首页）
+		图书板块展示所有书籍 使用分页技术  （图书检索页）
+		图书板块可以进行书籍搜索 模糊搜索
+		排行榜展示每个分类最热门的书籍 （排行榜页面）
+		用户留言板块展示最新用户留言 用户也可以在该板块留言 （留言板页）
+		书籍详情页面展示书的基本介绍和目录 （图书详情页）
+		用户可以在书籍详情页面购买该书籍 
+		用户可以在书籍详情页面对书籍进行打分（只可以一次且无法修改，且必须是购买后）
+		用户可以在我的书架页面查看自己购买记录 （书架页面）
+		阅读页面添加操作面板 面板提供调整字体 夜间模式 记笔记功能 （阅读页）
+		管理员可以向用户发送通知（后台操作页面）
+	可拓展功能:
+		用户可以对书籍进行评价 可以对评价进行回复
+		添加书签系统
+		网站响应式布局
+		书籍详情页面扫码在手机端阅读
+		后台提供更多的功能模块 账号管理 钱包管理 订单管理 留言管理 书籍管理
+
+总体设计
+	用户管理子系统	User
+	书籍管理子系统	Book
+	站内消息子系统	Message
+	书籍购买子系统
+	搜索引擎子系统
+
+详细设计
+
+	数据库设计:
+
+	t_mail
+	(#uid, umail, vertify_code, last_request_time)
+
+	t_level
+	(#uid, uname, min_words, is_active)
+
+	t_user
+	(#uid, umail_id, password, is_admin, user_level, pocket, reg_time, session_key)
+
+	t_novel_cate
+	(#uid, uname, is_active, create_time)
+
+	t_novel_info
+	(#uid, GUID, title, rank, author, cover, ucate_id, price, discount, description, meta_key, meta_desc, is_active, create_time, update_time)
+
+	t_novel_chapter
+	(#uid, GUID, unovel_id, title, description, content, words, is_active, create_time, update_time)
+
+	t_purchase_token
+	(#uid, user_id, novel_id, price, token, purchase_time)
+
+	t_read_record
+	(#uid, user_id, chapter_id, last_read_time)
+
+	t_notes
+	(#uid, user_id, chapter_id, notes, post_time)
+
+	t_message
+	(#uid, user_sender_id, user_reciever_id, message, post_time)
+
+	t_propose
+	(#uid, user_id, message, post_time)
+
+
+	View:
+	注册页面	User/Reg/index
+	登录界面	User/Login/index
+	密码找回	User/Login/forgot
+	留言板		User/Propose/index
+
+	主页			Book/Index/index
+	图书检索页面 	Book/Search/index/page/{page default=0}/num/{num default=15}
+	排行榜页面		Book/Rank/index/category/{cate default none}
+	图书详情页面	Book/Search/info/uid/{uid default none}
+	图书阅读页面	Book/Read/view/token/{token}/c/{c default 1}
+	我的书架页面	Book/Shelf/index
+
+
+
+	API:
+	验证码获取	User/VertifyCode/index 	post{mail} 						return{success, msg, data(vertify_code)}
+	注册 		User/Reg/reg 			post{mail, pwd, vertify_code} 	return{success, msg, data(redirect)}
+	登录 		User/Login/login 		post{mail, pwd} 				return{success, msg, data(redirect)}
+	修改密码 	User/Login/change_pwd 	post{mail, old_pwd, new_pwd} 	return{success, msg, data(redirect)}
+	留言 		User/Propose/post 		post(message)					return{success, msg, data()}
+
+	图书检索 	Book/Search/page		post{page, num}					return{success, msg, data(book_info)}
+	图书搜索 	Book/Search/search 		post{key, page, num}			return{success, msg, data(book_info)}
+	图书购买	Book/Purchase/buy		post{uid}						return{success, msg, data(redirect)}
+
+	阅读笔记	Book/Read/note 			post{uid, notes}				return{success, msg, data()}
+	
+
+
+
+
