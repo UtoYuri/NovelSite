@@ -63,19 +63,19 @@
 	(#uid, user_sender_id, user_reciever_id, message, post_time)
 
 	t_propose
-	(#uid, user_id, message, post_time)
+	(#uid, user_id, tag, message, post_time)
 
 
 	View:
-	注册页面	User/Reg/index
-	登录界面	User/Login/index
-	密码找回	User/Login/forgot
-	留言板		User/Propose/index
+	注册页面		User/Reg/index
+	登录界面		User/Login/index
+	密码找回		User/Login/forgot
+	留言板			User/Propose/index
 
 	主页			Book/Index/index
 	图书检索页面 	Book/Search/index/page/{page default=0}/num/{num default=15}
-	排行榜页面		Book/Rank/index/category/{cate default none}
 	图书详情页面	Book/Search/info/uid/{uid default none}
+	排行榜页面		Book/Rank/index/category/{cate default none}
 	图书阅读页面	Book/Read/view/token/{token}/c/{c default 1}
 	我的书架页面	Book/Shelf/index
 
@@ -93,6 +93,8 @@
 	图书购买	Book/Purchase/buy		post{uid}						return{success, msg, data(redirect)}
 
 	阅读笔记	Book/Read/note 			post{uid, notes}				return{success, msg, data()}
+	
+
 	
 
 
