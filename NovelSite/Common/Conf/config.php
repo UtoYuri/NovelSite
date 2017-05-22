@@ -21,4 +21,9 @@ return array(
 
 
     // 'ERROR_PAGE'            =>  '/Common/Common/error.html', // 错误定向页面
+
+    /* 邮件发送账号设置 */
+    'MAIL_SMTP'             =>  'smtp.163.com',      // 邮箱smtp地址
+    'MAIL_USERNAME'         =>  'urdreamer_service@163.com',      // 邮箱登录名
+    'MAIL_PASSWORD'         =>  'Zhuyunrui433',      // 邮箱密码
 );
