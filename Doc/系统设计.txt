@@ -60,40 +60,56 @@
 	(#uid, user_id, chapter_id, notes, post_time)
 
 	t_message
-	(#uid, user_sender_id, user_reciever_id, message, post_time)
+	(#uid, user_sender_id, user_reciever_id, message, status, post_time)
 
 	t_propose
 	(#uid, user_id, tag, message, post_time)
 
 
-	View:
-	注册页面		User/Reg/index
-	登录界面		User/Login/index
-	密码找回		User/Login/forgot
-	留言板			User/Propose/index
+	mudule/controller/action设计
+		User
+			注册页面	User/Reg/index
+			注册 		User/Reg/reg 			post{mail, pwd, vertify_code} 	return{success, msg, data(redirect)}
 
-	主页			Book/Index/index
-	图书检索页面 	Book/Search/index/page/{page default=0}/num/{num default=15}
-	图书详情页面	Book/Search/info/uid/{uid default none}
-	排行榜页面		Book/Rank/index/category/{cate default none}
-	图书阅读页面	Book/Read/view/token/{token}/c/{c default 1}
-	我的书架页面	Book/Shelf/index
+			登录界面	User/Login/index
+			密码找回	User/Login/forgot
+			登录 		User/Login/login 		post{mail, pwd} 				return{success, msg, data(redirect)}
+			注销 		User/Login/logout 		post{} 							return{success, msg, data(redirect)}
+			修改密码 	User/Login/change_pwd 	post{mail, old_pwd, new_pwd} 	return{success, msg, data(redirect)}
+
+			验证码获取	User/Vertify/get_mail 	post{mail} 						return{success, msg, data(vertify_code)}
+
+			留言板		User/Propose/index
+			留言 		User/Propose/post 		post(message)					return{success, msg, data()}
+
+		Book
+			主页			Book/Index/index
+
+			图书检索页面 	Book/Search/index/page/{page default=0}/num/{num default=15}
+			图书详情页面	Book/Search/info/uid/{uid default none}
+			图书检索 		Book/Search/page		post{page, num}					return{success, msg, data(book_info)}
+			图书搜索 		Book/Search/search 		post{key, page, num}			return{success, msg, data(book_info)}
+
+			排行榜页面		Book/Rank/index/category/{cate default none}
+			阅读笔记		Book/Read/note 			post{uid, notes}				return{success, msg, data()}
+			图书阅读页面	Book/Read/view/token/{token}/c/{c default 1}
+
+			我的书架页面	Book/Shelf/index
+
+			图书购买		Book/Purchase/buy		post{uid}						return{success, msg, data(redirect)}
+			图书订单		Book/Purchase/order		post{}							return{success, msg, data(order)}
+
+		Message
+			主页			Message/Index/index
+			发送消息		Message/Index/post 		post{reciver_id, message}		return{success, msg, data()}
+			获取消息列表	Message/Index/list		post{}							return{success, msg, data(messages)}
+			读取消息		Message/Index/get 		post{message_id}				return{success, msg, data(messages)}
+			全部标记已读	Message/Index/clear 	post{}							return{success, msg, data()}
+			
 
 
 
-	API:
-	验证码获取	User/VertifyCode/index 	post{mail} 						return{success, msg, data(vertify_code)}
-	注册 		User/Reg/reg 			post{mail, pwd, vertify_code} 	return{success, msg, data(redirect)}
-	登录 		User/Login/login 		post{mail, pwd} 				return{success, msg, data(redirect)}
-	修改密码 	User/Login/change_pwd 	post{mail, old_pwd, new_pwd} 	return{success, msg, data(redirect)}
-	留言 		User/Propose/post 		post(message)					return{success, msg, data()}
 
-	图书检索 	Book/Search/page		post{page, num}					return{success, msg, data(book_info)}
-	图书搜索 	Book/Search/search 		post{key, page, num}			return{success, msg, data(book_info)}
-	图书购买	Book/Purchase/buy		post{uid}						return{success, msg, data(redirect)}
-
-	阅读笔记	Book/Read/note 			post{uid, notes}				return{success, msg, data()}
-	
 
 	
 
