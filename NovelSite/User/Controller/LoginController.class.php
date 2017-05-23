@@ -45,11 +45,15 @@ class LoginController extends Controller {
 
         // 创建验证模型
         $vertify_model = D('Vertify');
+        // 创建用户模型
+        $user_model = D('User');
+
+        // 获取用户ID
+    	$mail_id = $vertify_model->get_mail_id($mail);
+        $user_id = $user_model->get_user_id_by_mail($mail_id);
 
         // 验证用户是否存在
-    	$mail_id = $vertify_model->get_mail_id($mail);
-
-    	if (!$mail_id){
+    	if (!$user_id){
     		$this->ajaxReturn(array(
     				'success' => false, 
     				'msg' => '用户不存在', 
@@ -59,11 +63,8 @@ class LoginController extends Controller {
 				), 'json');
     	}
 
-    	// 创建用户模型
-    	$user_model = D('User');
 
-    	// 获取账户ID、密码
-        $user_id = $user_model->get_user_id_by_mail($mail_id);
+    	// 获取密码
         $password = $user_model->get_user_pwd($user_id);
 
         // 验证密码是否正确
@@ -133,8 +134,8 @@ class LoginController extends Controller {
      * @param string $pwd 登录密码
      * @return json 登录结果
      */  
-    public function change_pwd($mail, $old_pwd, $new_pwd){
-        $mail      = I('post.mail', '');
+    public function change_pwd(){
+        $mail          = I('post.mail', '');
         $old_pwd       = I('post.old_pwd', '');
         $new_pwd       = I('post.new_pwd', '');
 
@@ -154,11 +155,15 @@ class LoginController extends Controller {
 
         // 创建验证模型
         $vertify_model = D('Vertify');
+        // 创建用户模型
+        $user_model = D('User');
+
+        // 获取用户ID
+        $mail_id = $vertify_model->get_mail_id($mail);
+        $user_id = $user_model->get_user_id_by_mail($mail_id);
 
         // 验证用户是否存在
-        $mail_id = $vertify_model->get_mail_id($mail);
-
-        if (!$mail_id){
+        if (!$user_id){
             $this->ajaxReturn(array(
                     'success' => false, 
                     'msg' => '用户不存在', 
@@ -168,11 +173,8 @@ class LoginController extends Controller {
                 ), 'json');
         }
 
-        // 创建用户模型
-        $user_model = D('User');
 
-        // 获取账户ID、密码
-        $user_id = $user_model->get_user_id_by_mail($mail_id);
+        // 获取密码
         $password = $user_model->get_user_pwd($user_id);
 
         // 验证密码是否正确

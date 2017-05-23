@@ -17,9 +17,9 @@ class ProposeController extends Controller {
 	 * @return json 留言结果
 	 */  
     public function post(){
-        $tag            = I('post.tag', '测试');
-        $message        = I('post.message', '这是测试留言');
-    	$session_key    = I('session.session_key', 'da639654e75d5b7c2cbf604086399965');
+        $tag            = I('post.tag', '');
+        $message        = I('post.message', '');
+    	$session_key    = I('session.session_key', '');
 
         // 验证登录状态
         if (strlen($session_key) == 0){
@@ -51,10 +51,22 @@ class ProposeController extends Controller {
     	// 获取账户ID
         $user_id = $user_model->get_user_id_by_session($session_key);
 
+        // 检测异地登录导致的session失效
+        // 登录状态失效则返回错误提示
+        if (!$user_id){
+            $this->ajaxReturn(array(
+                    'success' => false, 
+                    'msg' => '登陆状态已失效', 
+                    'data' => array(
+                            'redirect' => U('/User/Login/index'), 
+                        ), 
+                ), 'json');
+        }
+
         // 创建留言板模型
         $propose_model = D('Propose');
 
-        // 获取账户ID
+        // 留言失败则返回错误提示
         if (!$propose_model->post_propose($user_id, $tag, $message)){
             $this->ajaxReturn(array(
                     'success' => false, 

@@ -69,7 +69,7 @@
 	mudule/controller/action设计
 		User
 			注册页面	User/Reg/index
-			注册 		User/Reg/reg 			post{mail, pwd, vertify_code} 	return{success, msg, data(redirect)}
+			注册 		User/Reg/reg 			post{mail, pwd, vertify_code, is_admin} 	return{success, msg, data(redirect)}
 
 			登录界面	User/Login/index
 			密码找回	User/Login/forgot
@@ -88,7 +88,7 @@
 			图书检索页面 	Book/Search/index/page/{page default=0}/num/{num default=15}
 			图书详情页面	Book/Search/info/uid/{uid default none}
 			图书检索 		Book/Search/page		post{page, num}					return{success, msg, data(book_info)}
-			图书搜索 		Book/Search/search 		post{key, page, num}			return{success, msg, data(book_info)}
+			图书搜索 		Book/Search/search 		post{key, page, num, field}		return{success, msg, data(book_info)}
 
 			排行榜页面		Book/Rank/index/category/{cate default none}
 			阅读笔记		Book/Read/note 			post{uid, notes}				return{success, msg, data()}

@@ -9,17 +9,17 @@ class UserModel extends Model {
 	 * 创建用户
      * @param int $mail_id 邮箱编号
      * @param string $password 密码
-	 * @param string $session_key 会话key
+	 * @param bool $is_admin 是否注册为管理员
 	 * @return bool 操作结果
 	 */  
-    public function create_user($mail_id, $password, $session_key){
+    public function create_user($mail_id, $password, $is_admin = false){
     	$condition = array(
     			'umail_id' => $mail_id, 
     		);
     	$data = array(
     			'umail_id' => $mail_id, 
     			'password' => md5($password), 
-    			'session_key' => $session_key, 
+    			'is_admin' => $is_admin, 
     		);
 
     	// 查找用户是否已经存在
@@ -75,7 +75,7 @@ class UserModel extends Model {
             );
 
         // 获取用户密码
-        $password = $this->join('t_mail on t_mail.uid = t_user.umail_id')->where($condition)->getField('password');
+        $password = $this->where($condition)->getField('password');
         return $password;
     }
 
