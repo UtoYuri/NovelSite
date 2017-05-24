@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-05-22 10:19:14
+-- Generation Time: 2017-05-24 18:45:39
 -- 服务器版本： 5.7.9
 -- PHP Version: 5.6.16
 
@@ -58,10 +58,18 @@ CREATE TABLE IF NOT EXISTS `t_mail` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
   `umail` varchar(100) NOT NULL,
   `vertify_code` varchar(6) DEFAULT NULL,
-  `last_request_time` datetime DEFAULT NULL,
+  `last_request_time` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `umail` (`umail`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `t_mail`
+--
+
+INSERT INTO `t_mail` (`uid`, `umail`, `vertify_code`, `last_request_time`) VALUES
+(7, '416694631@qq.com', '268035', '2017-05-23 08:30:12'),
+(8, 'imryss@qq.com', '000000', '2017-05-23 08:52:00');
 
 -- --------------------------------------------------------
 
@@ -73,11 +81,19 @@ DROP TABLE IF EXISTS `t_message`;
 CREATE TABLE IF NOT EXISTS `t_message` (
   `uid` int(11) NOT NULL AUTO_INCREMENT,
   `user_sender_id` int(11) NOT NULL,
-  `user_reciever_id` int(11) NOT NULL,
+  `user_receiver_id` int(11) NOT NULL,
   `message` text NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'new',
   `post_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `t_message`
+--
+
+INSERT INTO `t_message` (`uid`, `user_sender_id`, `user_receiver_id`, `message`, `status`, `post_time`) VALUES
+(1, 5, 5, '这是一条测试站内信', 'readed', '2017-05-23 16:48:41');
 
 -- --------------------------------------------------------
 
@@ -171,7 +187,14 @@ CREATE TABLE IF NOT EXISTS `t_propose` (
   `message` text NOT NULL,
   `post_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `t_propose`
+--
+
+INSERT INTO `t_propose` (`uid`, `user_id`, `tag`, `message`, `post_time`) VALUES
+(1, 2, '这是测试留言', '测试', '2017-05-22 19:08:05');
 
 -- --------------------------------------------------------
 
@@ -218,11 +241,20 @@ CREATE TABLE IF NOT EXISTS `t_user` (
   `password` varchar(32) NOT NULL,
   `is_admin` tinyint(1) DEFAULT '0',
   `user_level` int(11) NOT NULL DEFAULT '1',
+  `pocket` int(11) NOT NULL DEFAULT '50',
   `reg_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `session_key` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE KEY `umail_id` (`umail_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `t_user`
+--
+
+INSERT INTO `t_user` (`uid`, `umail_id`, `password`, `is_admin`, `user_level`, `pocket`, `reg_time`, `session_key`) VALUES
+(2, 7, '670b14728ad9902aecba32e22fa4f6bd', 0, 1, 50, '2017-05-22 17:19:48', 'da639654e75d5b7c2cbf604086399965'),
+(5, 8, '670b14728ad9902aecba32e22fa4f6bd', 1, 1, 50, '2017-05-23 08:55:43', 'd99f8d56c16fddbd03f0b9659889f69f');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
