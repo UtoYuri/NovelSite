@@ -13,6 +13,7 @@ class ProposeController extends Controller {
 
 	/** 
 	 * 留言API
+     * @param string $tag 标签
 	 * @param string $message 留言
 	 * @return json 留言结果
 	 */  

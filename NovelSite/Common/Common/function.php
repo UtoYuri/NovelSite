@@ -10,10 +10,21 @@ function rand_code(){
 
 /** 
  * 生成session_key
- * @return int
+ * @param int $user_id 用户ID
+ * @return string 会话ID
  */  
 function create_session_key($user_id){
 	return md5($user_id.time());
+}
+
+/** 
+ * 生成订单号
+ * @param int $user_id 用户ID
+ * @param int $book_id 目标ID
+ * @return string token
+ */  
+function create_order(){
+	return date('YmdHis').rand(100,999);
 }
 
 /** 

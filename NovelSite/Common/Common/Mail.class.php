@@ -190,13 +190,13 @@ class MySendMail {
      if($this->_isHTML) {
        $mail = "MIME-Version:1.0\r\n";
        $mail .= "Content-type:text/html;charset=utf-8\r\n";
-       $mail .= "FROM:T宅极客<" . $this->_from . ">\r\n";
+       $mail .= "FROM:<" . $this->_from . ">\r\n";
        $mail .= "TO:<" . $this->_to . ">\r\n";
        $mail .= "Subject:" . $this->_subject ."\r\n\r\n";
        $mail .= $this->_body . "\r\n.\r\n";
      }
      else{
-       $mail = "FROM:T宅极客<" . $this->_from . ">\r\n";
+       $mail = "FROM:<" . $this->_from . ">\r\n";
        $mail .= "TO:<" . $this->_to . ">\r\n";
        $mail .= "Subject:" . $this->_subject ."\r\n\r\n";
        $mail .= $this->_body . "\r\n.\r\n";

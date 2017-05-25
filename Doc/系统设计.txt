@@ -51,7 +51,7 @@
 	(#uid, GUID, unovel_id, title, description, content, words, is_active, create_time, update_time)
 
 	t_purchase_token
-	(#uid, user_id, novel_id, price, token, purchase_time)
+	(#uid, uorder, user_id, novel_id, price, token, purchase_time)
 
 	t_read_record
 	(#uid, user_id, chapter_id, last_read_time)
@@ -85,24 +85,27 @@
 		Book
 			主页			Book/Index/index
 
-			图书检索页面 	Book/Search/index/page/{page default=0}/num/{num default=15}
-			图书详情页面	Book/Search/info/uid/{uid default none}
+			图书检索页面 	Book/Search/index/page/{page default=1}/num/{num default=15}
+			图书详情页面	Book/Search/info/guid/{guid default none}
 			图书检索 		Book/Search/page		post{page, num}					return{success, msg, data(book_info)}
 			图书搜索 		Book/Search/search 		post{key, page, num, field}		return{success, msg, data(book_info)}
 
 			排行榜页面		Book/Rank/index/category/{cate default none}
-			阅读笔记		Book/Read/note 			post{uid, notes}				return{success, msg, data()}
+			
+			阅读笔记		Book/Read/note 			post{guid, notes}				return{success, msg, data()}
 			图书阅读页面	Book/Read/view/token/{token}/c/{c default 1}
+			图书阅读页面	Book/Read/level   		post{}							return{success, msg, data(level)}
 
 			我的书架页面	Book/Shelf/index
+			我的书架分页	Book/Shelf/page			post{page, num}					return{success, msg, data(shelf_info)}
 
-			图书购买		Book/Purchase/buy		post{uid}						return{success, msg, data(redirect)}
+			图书购买		Book/Purchase/buy		post{guid}						return{success, msg, data(redirect)}
 			图书订单		Book/Purchase/order		post{}							return{success, msg, data(order)}
 
 		Message
 			主页			Message/Index/index
 			发送消息		Message/Index/post 		post{reciver_id, message}		return{success, msg, data()}
-			获取消息列表	Message/Index/list		post{}							return{success, msg, data(messages)}
+			获取消息列表	Message/Index/getlist	post{page, num}					return{success, msg, data(messages)}
 			读取消息		Message/Index/get 		post{message_id}				return{success, msg, data(messages)}
 			全部标记已读	Message/Index/clear 	post{}							return{success, msg, data()}
 			

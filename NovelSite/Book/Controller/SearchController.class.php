@@ -4,7 +4,7 @@ use Think\Controller;
 class SearchController extends Controller {
 
     /** 
-     * 默认控制器默认动作
+     * 搜索控制器默认动作
      * @param int $page 页码
      * @param int $num 页面容量
      * 展示网站首页
@@ -50,13 +50,16 @@ class SearchController extends Controller {
         // 创建小说模型
         $book_model = D('Book');
 
+
         // 获取小说基本信息
         $book_info = $book_model->get_book_info($guid);
         // 获取小说章节信息
         $book_chapters = $book_model->get_book_chapters($guid);
         // 如果登录则获取用户对该书的阅读笔记
         if (!$err_msg){
-            $notes = $book_model->get_notes($user_id, $guid);
+            // 创建阅读笔记模型
+            $note_model = D('Note');
+            $notes = $note_model->get_notes($user_id, $guid);
             $log_status = true;
         }else{
             $notes = $err_msg;

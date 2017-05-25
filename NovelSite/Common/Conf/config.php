@@ -3,6 +3,14 @@ return array(
     /* Cookie设置 */
     'COOKIE_EXPIRE'         =>  7,       // Cookie有效期
 
+    /* Session设置 */
+    'SESSION_OPTIONS'       =>  array(
+        'name'              =>  'PHPSESSION',                    //设置session名
+        'expire'            =>  3600 * 24 * 7,                   //SESSION过期时间，单位秒
+        'use_trans_sid'     =>  1,                               //跨页传递
+        'use_only_cookies'  =>  0,                               //是否只开启基于cookies的session的会话方式
+    ),
+
     /* 数据库设置 */
     'DB_TYPE'               =>  'mysqli',     // 数据库类型
     'DB_HOST'               =>  'localhost', // 服务器地址

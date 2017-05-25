@@ -13,7 +13,34 @@ class BookModel extends Model {
      */  
     public function get_book_list($page = 1, $num = 20){
         // 获取图书信息
-        $result = $this->order('update_time DESC')->page($page, $num)->select();
+        $result = $this->field('GUID, title, author, cover, t_novel_cate.uname AS category, price, discount, description, meta_key, meta_desc, update_time')
+                        ->join('LEFT JOIN t_novel_cate ON (t_novel_info.ucate_id = t_novel_cate.uid)')
+                        ->order('update_time DESC')
+                        ->page($page, $num)
+                        ->select();
+        return $result;
+    }
+
+    /** 
+     * 分类图书检索列表
+     * @param string $category 分类
+     * @param int $page 页码
+     * @param int $num 页面容量
+     * @return array 图书列表
+     */  
+    public function get_rank_list($category = '', $page = 1, $num = 20){
+        $sql = $this->field('GUID, title, author, cover, t_novel_cate.uname AS category, price, discount, description, meta_key, meta_desc, update_time')
+                        ->join('LEFT JOIN t_novel_cate ON (t_novel_info.ucate_id = t_novel_cate.uid)')
+                        ->order('update_time DESC')
+                        ->page($page, $num);
+        if (strlen($category)){
+            $condition = array(
+                    't_novel_cate.uname' => $category, 
+                );
+            $sql = $sql->where($condition);
+        }
+        // 获取分类排行信息
+        $result = $sql->select();
         return $result;
     }
 
@@ -88,36 +115,4 @@ class BookModel extends Model {
         return $result;
     }
 
-    /** 
-     * 获取小说阅读笔记
-     * @param int $user_id 用户ID
-     * @param string $guid 小说统一标识符
-     * @return array 该用户的该小说的阅读笔记
-     */  
-    public function get_notes($user_id, $guid){
-        $condition = array(
-                'GUID' => array('LIKE', substr($guid, 0, 10).'%'), 
-                'is_active' => true, 
-            );
-
-        // 获取章节ID
-        $chapters = $this->table('t_novel_chapter')->where($condition)->field('uid')->select();
-        $chapters_id = array();
-        foreach ($chapters as $key => $value) {
-            $chapters_id[] = $value[0];
-        }
-
-        // 如果找不到对应章节 就直接返回空数组
-        if (!count($chapters_id)){
-            return array();
-        }
-
-        $condition = array(
-                'user_id' => $user_id, 
-                'chapter_id' => array('IN', $chapters_id), 
-            );
-        // 阅读笔记
-        $result = $this->table('t_notes')->where($condition)->select();
-        return $result;
-    }
 }
