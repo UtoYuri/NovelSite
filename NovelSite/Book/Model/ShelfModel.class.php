@@ -31,14 +31,16 @@ class ShelfModel extends Model {
                 'user_id' => $user_id,
             );
         if ((int)$this->where($condition)->field('token')->count() == 0){
+            $cost = $book[0]['price'] * $book[0]['discount'];
             $data = array(
                     'uorder' => create_order(),
                     'novel_id' => $book[0]['uid'],
                     'user_id' => $user_id,
-                    'price' => $book[0]['price'] * $book[0]['discount'],
+                    'price' => $cost,
                     'token' => uniqid(),
                 );
             $this->add($data);
+            $this->table('t_user')->where(array('uid' => $user_id))->setDec('pocket', $cost);
         }
         $result = $this->where($condition)->field('uorder, token')->select();
 

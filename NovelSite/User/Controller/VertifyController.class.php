@@ -17,7 +17,7 @@ class VertifyController extends Controller {
 	 * @param string $mail 邮箱地址
 	 * @return json 获取结果
 	 */  
-    public function get_mail($mail = ''){
+    public function get_mail_vertify(){
     	$mail = I('post.mail', '');
 
     	// 如果post数据不完整

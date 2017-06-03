@@ -20,15 +20,32 @@ class ProposeController extends Controller {
     public function post(){
         $tag            = I('post.tag', '');
         $message        = I('post.message', '');
-    	$session_key    = I('session.session_key', '');
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
+            $err_msg = $err_msg ? $err_msg : '请先登录';
+        }
+
+        // 创建用户模型
+        $user_model = D('User/User');
+
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
+        }
+
+        // 用户验证出错
+        if ($err_msg){
             $this->ajaxReturn(array(
                     'success' => false, 
-                    'msg' => '请先登录', 
+                    'msg' => $err_msg, 
                     'data' => array(
-                            'redirect' => U('/User/Login/index'), 
+                            'redirect' => U('/User/Reg/reg'), 
                         ), 
                 ), 'json');
         }

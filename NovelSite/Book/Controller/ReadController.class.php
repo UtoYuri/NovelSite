@@ -18,13 +18,8 @@ class ReadController extends Controller {
      * 展示阅读界面
      */  
     public function view($token = '', $guid = ''){
-        $session_key    = I('session.session_key', '');
-
-        // 验证post数据完整性
-        if (strlen($token) == 0
-            || strlen($guid) == 0){
-            $err_msg = $err_msg ? $err_msg : '阅读令牌/章节GUID为空';
-        }
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
@@ -34,13 +29,12 @@ class ReadController extends Controller {
         // 创建用户模型
         $user_model = D('User/User');
 
-        // 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
-
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
-            $err_msg = $err_msg ? $err_msg : '登陆状态已失效';
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
         }
 
         // 创建书架模型
