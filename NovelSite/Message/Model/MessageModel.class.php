@@ -99,4 +99,20 @@ class MessageModel extends Model {
         $result = $this->where($condition)->order('post_time DESC')->page($page, $num)->select();
         return $result;
     }
+
+    
+    /** 
+     * 获取所有未读站内信
+     * @param int $user_id 操作用户ID
+     * @return array 站内信内容
+     */  
+    public function get_unread_message_list($user_id){
+        $condition = array(
+                'user_receiver_id' => $user_id, 
+                'status' => 'new', 
+            );
+        // 获取站内信内容
+        $result = $this->where($condition)->select();
+        return $result;
+    }
 }

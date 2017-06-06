@@ -25,7 +25,6 @@ class RegController extends Controller {
     	$pwd			 = I('post.pwd', '');
     	$vertify_code	 = I('post.vertify_code', '');
         $is_admin        = 0;
-        // $is_admin        = I('post.is_admin', 0);
 
     	// 如果post数据不完整
     	// 返回错误提示json
@@ -91,11 +90,10 @@ class RegController extends Controller {
         }
 
     	// 保存session
-    	session(null);
-    	session(array(
-    			'user_id' => $user_id, 
-    			'session_key' => $session, 
-    		));
+        session(null);
+        session('user_id', $user_id);
+        session('mail', $mail);
+        session('session_key', $session);
 
     	// 注册成功
     	$this->ajaxReturn(array(

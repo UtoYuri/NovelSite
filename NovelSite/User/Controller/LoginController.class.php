@@ -93,18 +93,17 @@ class LoginController extends Controller {
         }
 
     	// 保存session
-    	session(null);
-    	session(array(
-    			'user_id' => $user_id, 
-    			'session_key' => $session, 
-    		));
+        session(null);
+        session('user_id', $user_id);
+        session('mail', $mail);
+    	session('session_key', $session);
 
     	// 登录成功
     	$this->ajaxReturn(array(
 				'success' => true, 
 				'msg' => '登录成功', 
 				'data' => array(
-						'redirect' => U('/User/Login/index'), 
+						'redirect' => U('/Book/index'), 
 					), 
 			), 'json');
     }

@@ -70,33 +70,32 @@ class ReadController extends Controller {
      * @return json 等级详情
      */  
     public function level(){
-        $session_key    = I('session.session_key', '');
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '请先登录', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
-                        ), 
-                ), 'json');
+            $err_msg = $err_msg ? $err_msg : '请先登录';
         }
 
         // 创建用户模型
         $user_model = D('User/User');
 
-        // 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
+        }
 
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
+        // 用户验证出错
+        if ($err_msg){
             $this->ajaxReturn(array(
                     'success' => false, 
-                    'msg' => '登陆状态已失效', 
+                    'msg' => $err_msg, 
                     'data' => array(
-                            'redirect' => U('/User/Login/index'), 
+                            'redirect' => U('/User/Reg/reg'), 
                         ), 
                 ), 'json');
         }
@@ -126,45 +125,32 @@ class ReadController extends Controller {
     public function note(){
         $guid           = I('post.guid', '');
         $note           = I('post.note', '');
-        $session_key    = I('session.session_key', '');
-
-        // 验证post数据完整性
-        if (strlen($guid) == 0
-            || strlen($note) == 0){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '图书GUID/阅读笔记不可以为空', 
-                    'data' => array(
-                            'redirect' => U('/Book/Index/index'), 
-                        ), 
-                ), 'json');
-        }
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '请先登录', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
-                        ), 
-                ), 'json');
+            $err_msg = $err_msg ? $err_msg : '请先登录';
         }
 
         // 创建用户模型
         $user_model = D('User/User');
 
-        // 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
+        }
 
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
+        // 用户验证出错
+        if ($err_msg){
             $this->ajaxReturn(array(
                     'success' => false, 
-                    'msg' => '登陆状态已失效', 
+                    'msg' => $err_msg, 
                     'data' => array(
-                            'redirect' => U('/User/Login/index'), 
+                            'redirect' => U('/User/Reg/reg'), 
                         ), 
                 ), 'json');
         }

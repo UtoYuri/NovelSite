@@ -1,0 +1,328 @@
+/*网站公共样式开始*/
+a{
+	text-decoration: none;
+}
+body{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	overflow: hidden;
+    font-family: "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+}
+.header,.footer{
+    background-color: #222;
+}
+.clear{
+	clear: both;
+}
+/*网站公共结束*/
+
+/*顶部导航开始*/
+.header{
+    position: absolute;
+    top: 0;
+	height: 28px;
+    width: 100%;
+    min-width: 960px;
+}
+.index-main,
+.header-main{
+	width: 100%;
+    min-width: 960px;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.index{
+	background-color: #F9F9F9;
+	width: 100%;
+    height: 34px;
+    line-height: 34px;
+    padding: 15px 0;
+    box-shadow: 0px 2px 3px #ddd;
+}
+.index-main .nav,
+.header-main .nav{
+	float: left;
+}
+.index-main .nav li,
+.header-main .nav li{
+	position: relative;
+	list-style: none;
+	float: left;
+}
+.header-main .nav li{
+    line-height: 28px;
+    height: 28px;
+}
+.index-main .nav li a,
+.header-main .nav li a{
+	padding: 0 12px;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 12px;
+}
+.index-main .nav li a{
+    font-size: 14px;
+	color: #333;
+}
+.header-main .nav li a{
+    font-size: 12px;
+	color: #d5d5d5;
+}
+.index-main .nav li a.title{
+	color: #000;
+    font-size: 18px;
+}
+.header-main .nav li a.title{
+	color: #fff;
+}
+.nav .hover-content{
+	display: none;
+    width: 220px;
+    background: #fff;
+    position: absolute;
+    left: -90px;
+    z-index: 1000;
+    text-align: center;
+    font-family: Verdana,"Lantinghei SC","Hiragino Sans GB","Microsoft Yahei",Helvetica,arial,sans-serif;
+    box-shadow: 2px 2px 10px #ccc;
+}
+.nav .hover-content i{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    position: absolute;
+    left: 50%;
+    margin-left: -5px;
+    top: -3px;
+}
+.nav .hover-content .logo{
+    width: 50px;
+    margin-top: 31px;
+}
+.nav .hover-content h1{
+    font-size: 18px;
+    margin-top: 5px;
+    margin-bottom: -2px;
+}
+.nav .hover-content p{
+    margin-top: 5px;
+}
+.nav .hover-content img{
+    width: 105px;
+    margin-top: 5px;
+}
+.index-main .user-panel,
+.index-main .form-search{
+	float: right;
+}
+.index-main .form-search{
+	margin-right: 10px;
+}
+.index-main .form-search:hover{
+	box-shadow: 0 0 10px rgba(0,0,0,.2);
+	transition: box-shadow ease .4s;
+}
+.index-main .user-panel{
+	margin-left: 10px;
+}
+.index-main .user-panel a{
+	color: #333;
+	margin: 0 5px;
+}
+.index-main .user-panel .num{
+	color: #c44;
+	font-size: 12px;
+}
+.index-main .user-panel .uname{
+	color: #000;
+}
+.index-main .user-panel .uname span{
+	font-size: 14px;
+	color: #c44;
+	margin-left: 10px;
+}
+#key{
+	outline: none;
+	float: left;
+	height: 34px;
+	width: 150px;
+	padding: 0 15px;
+	border-left: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-radius: 2px;
+}
+#search{
+	float: left;
+	display: inline-block;
+	height: 34px;
+	width: 34px;
+	background-image: url(../images/search.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-color: #fff;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+/*顶部导航结束*/
+
+/*主体开始*/
+.container{
+    position: absolute;
+    top: 28px;
+    bottom: 60px;
+    margin-bottom: 0px;
+    width: 100%;
+    min-width: 960px;
+    /*max-width: 1440px;*/
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(241, 241, 241);
+}
+/*主体结束*/
+
+/*登录/注册框开始*/
+.log-panel{
+	position: absolute;
+	top: 15%;
+	left: 50%;
+	margin-left: -175px;
+	width: 350px;
+	padding: 30px 0 50px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 2px 2px 8px #555;
+}
+.log-panel .form{
+	margin: 0 auto;
+	width: 250px;
+}
+.log-panel .form-option{
+	margin-bottom: 15px;
+}
+.log-panel .form-option a{
+	color: #333;
+	margin-right: 10px;
+	font-family: "Microsoft YaHei";
+	font-size: 18px;
+	font-weight: 500;
+	text-align: center;
+	display: inline-block;
+	border-bottom: 2px solid #555;
+}
+.log-panel .form-option a.unchoosen{
+	border: none;
+	font-size: 14px;
+}
+.log-panel .form-option a.unchoosen:hover{
+	color: #000;
+	font-weight: 500;
+	font-size: 16px;
+	transition: font-size 0.3s;
+}
+.log-panel .row{
+	height: 50px;	
+	margin-bottom: 10px;
+}
+.log-panel .short{
+	height: 20px;
+	overflow: hidden;
+}
+.log-panel .row label{
+	display: block;
+	width: 100%;
+	height: 20px;
+	line-height: 20px;
+}
+.log-panel .row input{
+	display: block;
+	width: 240px;
+	padding: 0 5px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 3px;
+	outline: none;
+}
+.log-panel .row input:hover{
+	border: 1px solid #5c5;
+}
+.log-panel .row input{
+	border: 1px solid #bdbdbd;
+	outline: none;
+}
+.btn-forget{
+	text-decoration: none;
+	color: #555;
+	float: right;
+}
+#login,#reg{
+	display: block;
+	width: 250px;
+	padding: 0 5px;
+	height: 40px;
+	line-height: 30px;
+	border-radius: 3px;
+	outline: none;
+	border: 1px solid #bdbdbd;
+	margin-top: 15px;
+	background-color: #fff;
+}
+#vertify{
+	float: left;
+	width: 119px;
+	border-radius: 3px 0 0 3px;
+	height: 30px;
+}
+#get_vertify{
+	float: left;
+	width: 119px;
+	border-radius: 0px 3px 3px 0px;
+	border: none;
+	background-color: #fff;
+	border: 1px solid #bdbdbd;
+	height: 32px;
+	cursor: pointer;
+}
+#login:hover,
+#get_vertify:hover,
+#reg:hover{
+	color: #fff;
+	background-color: #222;
+	transition: background-color 0.3s;
+	cursor: pointer;
+}
+.form-reg{
+	display: none;
+}
+.form-login, .form-reg{
+
+}
+/*登录/注册框结束*/
+
+/*底部友情链接开始*/
+.footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 30px;
+    color: #CCC;
+    text-align: center;
+    padding: 15px 0;
+}
+.footer a{
+	margin-right: 10px;
+	color: #CCC;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 12px;
+}
+/*底部友情链接结束*/

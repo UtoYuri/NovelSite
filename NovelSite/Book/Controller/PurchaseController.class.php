@@ -16,7 +16,7 @@ class PurchaseController extends Controller {
      * @param string $guid 图书guid
      * @return json 书架结果
      */  
-    public function buy(){
+    public function purchase(){
         $guid           = I('post.guid', '');
         $user_id        = I('session.user_id/d', 0);        
         $session_key    = I('session.session_key', '');        
@@ -44,24 +44,6 @@ class PurchaseController extends Controller {
                     'msg' => $err_msg, 
                     'data' => array(
                             'redirect' => U('/User/Reg/reg'), 
-                        ), 
-                ), 'json');
-        }
-
-        // 创建用户模型
-        $user_model = D('User/User');
-
-        // 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
-
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '登陆状态已失效', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
                         ), 
                 ), 'json');
         }

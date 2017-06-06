@@ -49,9 +49,12 @@ class ShelfController extends Controller {
      * 书架信息API
      * @param int $page 页码
      * @param int $num 页面容量
+     * @param string $format 返回数据格式
      * @return json 书架结果
      */  
-    public function page($page = 1, $num = 20){
+    public function page($format = 'html'){
+        $page           = I('post.page/d', 1);
+        $num            = I('post.num/d', 20);    
         $user_id        = I('session.user_id/d', 0);        
         $session_key    = I('session.session_key', '');        
 
@@ -83,15 +86,27 @@ class ShelfController extends Controller {
         }
 
         // 创建小说模型
-        $shelf_model = D('Shelf');
+        $book_model = D('Book');
 
         // 获取书架信息
-        $shelf = $shelf_model->get_shelf_list($user_id, $page, $num);
+        $book_list = $book_model->get_purchased_list($user_id, $page, $num);
 
-        $this->ajaxReturn(array(
+        // 返回检索结果
+        if ($format == 'json'){
+            $this->ajaxReturn(array(
                 'success' => true, 
                 'msg' => '获取成功', 
-                'data' => $shelf, 
+                'data' => $book_list, 
             ), 'json');
+        }else if($format == 'xml'){
+            $this->xmlReturn(array(
+                'success' => true, 
+                'msg' => '获取成功', 
+                'data' => $book_list, 
+            ), 'json');
+        }else{
+            $this->assign('book_list', $book_list);
+            $this->display('Search/novel-item');
+        }
     }
 }

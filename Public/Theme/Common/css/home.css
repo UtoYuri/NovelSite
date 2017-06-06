@@ -1,0 +1,14 @@
+/*主体开始*/
+.container{
+    /*height: 550px;*/
+    /*height: 100%;*/
+}
+.waterfall-main{
+}
+/*主体结束*/
+
+/*登录注册框调整开始*/
+.log-panel{
+	display: none;
+}
+/*登录注册框调整结束*/

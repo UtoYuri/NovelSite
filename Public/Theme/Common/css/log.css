@@ -1,0 +1,28 @@
+body{
+    overflow: hidden;
+}
+/*轮播banner主体开始*/
+.container{
+}
+.rotate{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.rotate-item{
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-image: url(../images/rotate-1.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/*轮播banner主体结束*/
+
+/*登录注册框调整开始*/
+.log-panel{
+    left: 5%;
+    margin-left: 0;
+}
+/*登录注册框调整结束*/

@@ -1,0 +1,13 @@
+<if condition="count($book_list) eq 0">
+	<span style="display: block; width: 240px; height: 80px; font-size: 20px; margin: 10px auto;">没有更多...</span>
+<else />
+	<volist name="book_list" id="item">
+	<li>
+		<span>{$item.category}</span>
+		<a href="javascript:;" book-guid="{$item.guid}" book-cover="__ROOT__/Public/Theme/Common/images/poster.png" onclick="purchaseItem(this);">
+			<img src="{$item.cover}">
+		</a>
+		<p><span>({$item.price}金币)</span>《{$item.title}》{$item.author}</p>
+	</li>
+	</volist>
+</if>

@@ -75,24 +75,6 @@ class IndexController extends Controller {
 				), 'json');
     	}
 
-    	// 创建用户模型
-    	$user_model = D('User/User');
-
-    	// 获取账户ID
-        $sender_id = $user_model->get_user_id_by_session($session_key);
-
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$sender_id){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '登陆状态已失效', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
-                        ), 
-                ), 'json');
-        }
-
         // 检测自发自收
         if ($sender_id == $receiver_id){
             $this->ajaxReturn(array(
@@ -135,33 +117,32 @@ class IndexController extends Controller {
 	public function getlist(){
         $page    		= I('post.page/d', 1);
         $num    		= I('post.num/d', 20);
-    	$session_key    = I('session.session_key', '');
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '请先登录', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
-                        ), 
-                ), 'json');
+            $err_msg = $err_msg ? $err_msg : '请先登录';
         }
 
-    	// 创建用户模型
-    	$user_model = D('User/User');
+        // 创建用户模型
+        $user_model = D('User/User');
 
-    	// 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
+        }
 
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
+        // 用户验证出错
+        if ($err_msg){
             $this->ajaxReturn(array(
                     'success' => false, 
-                    'msg' => '登陆状态已失效', 
+                    'msg' => $err_msg, 
                     'data' => array(
-                            'redirect' => U('/User/Login/index'), 
+                            'redirect' => U('/User/Reg/reg'), 
                         ), 
                 ), 'json');
         }
@@ -185,33 +166,32 @@ class IndexController extends Controller {
 	 */  
 	public function get(){
         $message_id    	= I('post.message_id/d', 0);
-    	$session_key    = I('session.session_key', '');
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '请先登录', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
-                        ), 
-                ), 'json');
+            $err_msg = $err_msg ? $err_msg : '请先登录';
         }
 
-    	// 创建用户模型
-    	$user_model = D('User/User');
+        // 创建用户模型
+        $user_model = D('User/User');
 
-    	// 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
+        }
 
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
+        // 用户验证出错
+        if ($err_msg){
             $this->ajaxReturn(array(
                     'success' => false, 
-                    'msg' => '登陆状态已失效', 
+                    'msg' => $err_msg, 
                     'data' => array(
-                            'redirect' => U('/User/Login/index'), 
+                            'redirect' => U('/User/Reg/reg'), 
                         ), 
                 ), 'json');
         }
@@ -250,33 +230,32 @@ class IndexController extends Controller {
 	 * @return json 操作结果
 	 */  
 	public function clear(){
-    	$session_key    = I('session.session_key', '');
+        $user_id        = I('session.user_id/d', 0);        
+        $session_key    = I('session.session_key', '');        
 
         // 验证登录状态
         if (strlen($session_key) == 0){
-            $this->ajaxReturn(array(
-                    'success' => false, 
-                    'msg' => '请先登录', 
-                    'data' => array(
-                            'redirect' => U('/User/Login/index'), 
-                        ), 
-                ), 'json');
+            $err_msg = $err_msg ? $err_msg : '请先登录';
         }
 
-    	// 创建用户模型
-    	$user_model = D('User/User');
+        // 创建用户模型
+        $user_model = D('User/User');
 
-    	// 获取账户ID
-        $user_id = $user_model->get_user_id_by_session($session_key);
+        // 验证异地登录
+        if (C('CHECK_SESSION_KEY', false)){
+            // 获取账户ID
+            if ($user_id != $user_model->get_user_id_by_session($session_key)){
+                $err_msg = $err_msg ? $err_msg : '您已在其他终端登录，请重新登录';
+            }
+        }
 
-        // 检测异地登录导致的session失效
-        // 登录状态失效则返回错误提示
-        if (!$user_id){
+        // 用户验证出错
+        if ($err_msg){
             $this->ajaxReturn(array(
                     'success' => false, 
-                    'msg' => '登陆状态已失效', 
+                    'msg' => $err_msg, 
                     'data' => array(
-                            'redirect' => U('/User/Login/index'), 
+                            'redirect' => U('/User/Reg/reg'), 
                         ), 
                 ), 'json');
         }

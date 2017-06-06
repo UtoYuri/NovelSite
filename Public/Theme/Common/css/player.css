@@ -1,0 +1,48 @@
+
+
+/*播放器框开始*/
+.player-panel{
+	display: none;
+	background-color: rgba(0,0,0,.9);
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+.player-wrapper{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -270px;
+	margin-left: -480px;
+	height: 540px;
+	width: 960px;
+}
+.action-wrapper{
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 50px;
+}
+.action-wrapper a{
+	float: left;
+	margin-left: 5px;
+	display: inline-block;
+	height: 50px;
+	width: 50px;
+}
+.action-wrapper a.close{
+	background-image: url(../images/close.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center;
+}
+.action-wrapper a.like{
+	background-image: url(../images/like.png);
+	background-repeat: no-repeat;
+	background-size: 77%;
+	background-position: center;
+}
+/*播放器框结束*/

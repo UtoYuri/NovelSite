@@ -117,4 +117,19 @@ class UserModel extends Model {
         return $result != false;
     }
 
+    /** 
+     * 获取余额
+     * @param int $user_id 用户编号
+     * @return float 余额
+     */  
+    public function get_user_pocket($user_id){
+        $condition = array(
+                'uid' => $user_id, 
+            );
+
+        // 获取余额
+        $pocket = (float)$this->where($condition)->getField('pocket');
+        return $pocket;
+    }
+
 }

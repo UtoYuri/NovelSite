@@ -13,36 +13,44 @@ class ShelfModel extends Model {
      */  
     public function purchase($user_id, $guid){
         $condition = array(
-                'guid' => $guid,
+                'GUID' => $guid,
                 'is_active' => true,
             );
 
-        // 获取图书价格信息
-        $book = $this->table('t_novel_info')->where($condition)->field('uid, price, discount')->select();
+        // 获取商品价格信息
+        $novel = $this->table('t_novel_info')->where($condition)->field('uid, price, discount')->select();
 
-        if (!count($book)){
+        // dump($novel);
+        if (!count($novel)){
             return false;
         }
 
         // 判断是否已经购买
         // 没有购买则开始购买
         $condition = array(
-                'novel_id' => $book[0]['uid'],
+                'novel_id' => $novel[0]['uid'],
                 'user_id' => $user_id,
             );
+
         if ((int)$this->where($condition)->field('token')->count() == 0){
-            $cost = $book[0]['price'] * $book[0]['discount'];
+            $cost = $novel[0]['price'] - $novel[0]['discount'];
             $data = array(
                     'uorder' => create_order(),
-                    'novel_id' => $book[0]['uid'],
+                    'novel_id' => $novel[0]['uid'],
                     'user_id' => $user_id,
                     'price' => $cost,
                     'token' => uniqid(),
                 );
             $this->add($data);
-            $this->table('t_user')->where(array('uid' => $user_id))->setDec('pocket', $cost);
+
+            // 修改余额
+            $condition = array(
+                    'uid' => $user_id,
+                );
+            $pocket = $this->table('t_user')->where($condition)->field('pocket')->select()[0]['pocket'] - $cost;
+            $this->execute("UPDATE t_user SET pocket = ".$pocket." WHERE uid = '".$user_id."'");
         }
-        $result = $this->where($condition)->field('uorder, token')->select();
+        $result = $this->table('t_purchase_token')->where($condition)->field('uorder, token')->select();
 
         return $result[0];
     }
@@ -80,8 +88,9 @@ class ShelfModel extends Model {
                 'user_id' => $user_id,
                 'token' => $token,
             );
+        
         $result = $this->where($condition)->field('novel_id')->select();
-
+        
         if (!count($result)){
             return false;
         }

@@ -115,4 +115,42 @@ class BookModel extends Model {
         return $result;
     }
 
+    /** 
+     * 获取分类信息
+     * @return array 列表
+     */  
+    public function get_cate_info_list(){
+        $condition = array(
+                    'is_active' => true,
+                );
+        $result = $this->table('t_novel_cate')
+                    ->order('create_time ASC')
+                    ->where($condition)
+                    ->limit(15)
+                    ->select();
+        return $result;
+    }
+
+
+    /** 
+     * 已购列表列表
+     * @param int $user_id 用户编号
+     * @param int $page 页码
+     * @param int $num 页面容量
+     * @return array 列表
+     */  
+    public function get_purchased_list($user_id, $page = 1, $num = 20){
+        $condition = array(
+                    't_purchase_token.user_id' => $user_id,
+                );
+        $result = $this->table('t_purchase_token')
+                    ->field('GUID, title, author, cover, t_novel_cate.uname, t_novel_info.price, discount, description, meta_key, meta_desc, update_time')
+                    ->where($condition)
+                    ->join('LEFT JOIN t_novel_info ON (t_purchase_token.novel_id = t_novel_info.uid)')
+                    ->join('LEFT JOIN t_novel_cate ON (t_novel_info.ucate_id = t_novel_cate.uid)')
+                    ->order('update_time DESC')
+                    ->page($page, $num)
+                    ->select();
+        return $result;
+    }
 }
