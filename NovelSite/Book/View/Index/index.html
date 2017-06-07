@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>藏书阁 - 藏书阁出品</title>
-	<meta name="key" content="藏书阁，海量小说在线观看。">
-	<meta name="description" content="藏书阁，海量小说在线观看。 - 藏书阁出品">
+	<title>{$Think.config.SITE_TITLE} - {$Think.config.SITE_AUTHOR}出品</title>
+	<meta name="key" content="{$Think.config.SITE_KEY}">
+	<meta name="description" content="{$Think.config.SITE_DESC}">
 	<style type="text/css">
 		*{
 			padding: 0;
@@ -23,23 +23,29 @@
 		ROOT 	= "__ROOT__";
 		INDEX 	= "__ROOT__/index.php";
 	</script>
-	<script src="__ROOT__/Public/Theme/Common/js/common.js"></script>
-	<script src="__ROOT__/Public/Theme/Common/js/index.js"></script>
+
+	<script src="__ROOT__/Public/Theme/Common/js/AjaxItemsGetter.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/AccountManager.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/CommonUI.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/IndexUI.js"></script>
 
 	<script type="text/javascript">
 		$(function(){
-			ajaxCateItem();
-			ajaxMovieItem();
-			$(".waterfall-main").scroll(function(){  
-				if (noMoreMovie){
-					return;
-				}
+
+			IndexUI().setProgress(progressJs('.waterfall-main')); 
+
+			IndexUI().getCateItems(); 
+			IndexUI().initAjaxGetter()
+			IndexUI().getGoodsItems();
+
+			// 动态刷新页面
+			$(".waterfall-main").bind("scroll", function(){
 				var viewH = $(this).height(),
 					contentH = $(this).get(0).scrollHeight,
 					scrollTop = $(this).scrollTop();
 				if(contentH - viewH - scrollTop == 0) {
 					// 下拉刷新
-					ajaxMovieItem();
+					IndexUI().getGoodsItems();
 				}  
 			});
 		});
@@ -49,23 +55,13 @@
 <div class="header">
 	<div class="header-main">
 		<ul class="nav">
-			<li><a href="javascript:;" class="title">藏书阁</a></li>
+			<li><a href="javascript:;" class="title">{$Think.config.SITE_TITLE}</a></li>
 			<li>
-				<a href="javascript:;" onmouseover="tbPanelShow();" onmouseout="tbPanelHide();">淘宝店</a>
-				<div class="hover-content tb"><i></i>
-					<img class="logo" src="__ROOT__/Public/Theme/Common/images/logo.png" alt="">
-					<h1>藏书阁</h1>
-					<p>嫩头青的藏书阁</p>
-					<img class="ewm" src="__ROOT__/Public/Theme/Common/images/qr.png" alt="">
-					<p class="is">- 淘宝店铺 -</p>
-				</div>
-			</li>
-			<li>
-				<a href="javascript:;" onmouseover="zfbPanelShow();" onmouseout="zfbPanelHide();">赞助我们</a>
+				<a href="javascript:;" onmouseover="CommonUI().zfbPanelShow();" onmouseout="CommonUI().zfbPanelHide();">赞助我们</a>
 				<div class="hover-content zfb"><i></i>
 					<img class="logo" src="__ROOT__/Public/Theme/Common/images/logo.png" alt="">
-					<h1>藏书阁</h1>
-					<p>嫩头青的藏书阁</p>
+					<h1>{$Think.config.SITE_AUTHOR}</h1>
+					<p>{$Think.config.SITE_SUBTITLE}</p>
 					<img class="ewm" src="__ROOT__/Public/Theme/Common/images/qr.png" alt="">
 					<p class="is">- 支付宝 -</p>
 				</div>
@@ -77,15 +73,16 @@
 	<div class="index">
 		<div class="index-main">
 			<ul class="nav">
-				<li><a href="javascript:;" class="title">藏书阁</a></li>
+				<li><a href="javascript:;" class="title">{$Think.config.SITE_TITLE}</a></li>
+				<!-- <li><a href="javascript:;" title="建设中">铁头BBS</a></li> -->
 			</ul>
 			<div class="user-panel">
 				<if condition="$Think.session.mail neq null">
 					<a href="javascript:;">余额(<span class="num">{$pocket}g</span>)</a>
-					<a href="javascript:;">消息(<span class="num">{$message_list|count}</span>)</a>
+					<!-- <a href="javascript:;">消息(<span class="num">{$message_list|count}</span>)</a> -->
 					<a href="javascript:;" class="uname">
 						{$Think.session.mail|substr=0,30}
-						<span class="logout" onclick="ajaxLogout();">注销</span>
+						<span class="logout" onclick="CommonUI().logout();">注销</span>
 					</a>
 				<else />
 					<a href="{:U('/User/Login')}">登录</a>
@@ -94,15 +91,15 @@
 			</div>
 			<div class="form-search">
 				<input type="text" id="key" placeholder="书名/作者">
-				<a href="javascript:;" id="search" onclick="setSearchRule();"></a>
+				<a href="javascript:;" id="search" onclick="IndexUI().setSearchRule();"></a>
 			</div>
 		</div>
 	</div>
 	<div class="content">
 		<div class="category-main">
 			<ul class="ucate">
-				<li><a href="javascript:;" onclick="changeMovieGettingRule(this);" rank-type="all" class="choosen default">所有分类</a></li>
-				<li><a href="javascript:;" onclick="changeMovieGettingRule(this);" rank-type="record">阅读记录</a></li>
+				<li><a href="javascript:;" onclick="IndexUI().changeMovieGettingRule(this);" rank-type="all" class="choosen default">所有分类</a></li>
+				<li><a href="javascript:;" onclick="IndexUI().changeMovieGettingRule(this);" rank-type="record">我的书架</a></li>
 			</ul>
 			<span>分类</span>
 			<ul class="cate"></ul>
@@ -111,70 +108,56 @@
 			<ul class="movie-list"></ul>
 		</div>
 	</div>
-</div>
-
-<div class="player-panel">
-	<div class="action-wrapper">
-		<a href="javascript:;" onclick="closePlayer();" class="close"></a>
-	</div>
-	<div class="player-wrapper">
-		<div id="player" class="player-main dplayer"></div>
+	<div class="log-panel">
+		<div class="form">
+			<div class="form-option">
+				<a href="javascript:;">登录</a>
+				<a href="javascript:;" class="unchoosen">注册</a>
+			</div>
+			<div class="form-login">
+				<div class="row">
+					<label for="user">邮箱</label>
+					<input type="text" id="user" placeholder="邮箱">
+				</div>
+				<div class="row">
+					<label for="password">登录密码</label>
+					<input type="password" id="password" placeholder="登录密码">
+				</div>
+				<div class="row short">
+					<a href="javascript:;" class="btn-forget">忘记密码</a>
+					<em class="tip"></em>
+				</div>
+				<input type="button" id="login" value="登录">
+			</div>
+			<div class="form-reg">
+				<div class="row">
+					<label for="user">邮箱</label>
+					<input type="text" id="user" placeholder="邮箱">
+				</div>
+				<div class="row">
+					<label for="vertify">验证码</label>
+					<input type="text" id="vertify" placeholder="验证码">
+					<input type="button" id="get_vertify" value="发送验证码">
+				</div>
+				<div class="row">
+					<label for="password">登录密码</label>
+					<input type="password" id="password" placeholder="登录密码(6-20位)">
+				</div>
+				<input type="button" id="reg" value="注册">
+			</div>
+			
+		</div>
 	</div>
 </div>
 
 <div class="footer">
-	<a href="javascript:;">合作伙伴</a>
-	<a href="javascript:;">友情链接</a>
-	<a href="javascript:;">淘宝</a>
-	<a href="javascript:;">关于我们</a>
+	<volist name="Think.config.SITE_LINKS" id="item">
+	<a href="{$item.url}">{$item.title}</a>
+	</volist>
 	<div class="copyright">
 		<a href="javascript:;">Copyright © 2017-2018</a>
-		<a href="javascript:;">藏书阁</a>
+		<a href="javascript:;">{$Think.config.SITE_TITLE} Made By {$Think.config.SITE_AUTHOR}</a>
 	</div>
 </div>
-
-
-<script type="text/javascript">
-	/*
-	 * 开始播放
-	*/
-	function play(src, cover){
-		$('.player-panel').show();
-	}
-
-	/*
-	 * 关闭播放器
-	*/
-	function closePlayer(){
-		$('.player-panel').hide();
-	}
-
-	/*
-	 * 购买商品
-	*/
-	function purchaseItem(obj){
-		var cover 	= obj.getAttribute('Book-cover');
-		var guid 	= obj.getAttribute('Book-guid');
-
-		$.ajax({
-			url : INDEX + "/Book/purchase/purchase",
-			type : "POST",
-			data : {
-				'guid' : guid,
-			},
-			dataType : "json",
-			success : function(result) {
-				if (result.success){
-					play(result.data.src, cover);
-				}else{
-					console.log(result);
-				}
-			},
-			error:function(msg){
-				console.log(msg);
-			}
-		});
-	}
-</script>
 </body>
 </html>

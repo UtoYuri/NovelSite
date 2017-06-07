@@ -2,7 +2,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>注册 - 藏书阁</title>
+	<title>注册 - {$Think.config.SITE_TITLE}</title>
+	<meta name="key" content="{$Think.config.SITE_KEY}">
+	<meta name="description" content="{$Think.config.SITE_DESC}">
 	<style type="text/css">
 		*{
 			padding: 0;
@@ -18,29 +20,20 @@
 		ROOT 	= "__ROOT__";
 		INDEX 	= "__ROOT__/index.php";
 	</script>
-	<script src="__ROOT__/Public/Theme/Common/js/common.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/AccountManager.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/CommonUI.js"></script>
 </head>
 <body>
 <div class="header">
 	<div class="header-main">
 		<ul class="nav">
-			<li><a href="javascript:;" class="title">藏书阁</a></li>
+			<li><a href="javascript:;" class="title">{$Think.config.SITE_TITLE}</a></li>
 			<li>
-				<a href="javascript:;" onmouseover="tbPanelShow();" onmouseout="tbPanelHide();">淘宝店</a>
-				<div class="hover-content tb"><i></i>
-					<img class="logo" src="__ROOT__/Public/Theme/Common/images/logo.png" alt="">
-					<h1>藏书阁</h1>
-					<p>嫩头青的藏书阁</p>
-					<img class="ewm" src="__ROOT__/Public/Theme/Common/images/qr.png" alt="">
-					<p class="is">- 淘宝店铺 -</p>
-				</div>
-			</li>
-			<li>
-				<a href="javascript:;" onmouseover="zfbPanelShow();" onmouseout="zfbPanelHide();">赞助我们</a>
+				<a href="javascript:;" onmouseover="CommonUI().zfbPanelShow();" onmouseout="CommonUI().zfbPanelHide();">赞助我们</a>
 				<div class="hover-content zfb"><i></i>
 					<img class="logo" src="__ROOT__/Public/Theme/Common/images/logo.png" alt="">
-					<h1>藏书阁</h1>
-					<p>嫩头青的藏书阁</p>
+					<h1>{$Think.config.SITE_AUTHOR}</h1>
+					<p>{$Think.config.SITE_SUBTITLE}</p>
 					<img class="ewm" src="__ROOT__/Public/Theme/Common/images/qr.png" alt="">
 					<p class="is">- 支付宝 -</p>
 				</div>
@@ -55,8 +48,8 @@
 	<div class="log-panel">
 		<div class="form">
 			<div class="form-option">
-				<a href="javascript:;" onclick="logOptShow(this);" class="unchoosen">登录</a>
-				<a href="javascript:;" onclick="regOptShow(this);">注册</a>
+				<a href="javascript:;" onclick="CommonUI().logOptShow(this);" class="unchoosen">登录</a>
+				<a href="javascript:;" onclick="CommonUI().regOptShow(this);">注册</a>
 			</div>
 			<div class="form-login" style="display: none;">
 				<div class="row">
@@ -71,7 +64,7 @@
 					<a href="javascript:;" class="btn-forget">忘记密码</a>
 					<em class="tip"></em>
 				</div>
-				<input type="button" id="login" onclick="ajaxLogin();" value="登录">
+				<input type="button" id="login" onclick="CommonUI().login();" value="登录">
 			</div>
 			<div class="form-reg" style="display: block;">
 				<div class="row">
@@ -81,7 +74,7 @@
 				<div class="row">
 					<label for="vertify">验证码</label>
 					<input type="text" id="vertify" placeholder="验证码">
-					<input type="button" id="get_vertify" onclick="ajaxGetVertify();" value="发送验证码">
+					<input type="button" id="get_vertify" onclick="CommonUI().getVertify();" value="发送验证码">
 				</div>
 				<div class="row">
 					<label for="password">登录密码</label>
@@ -90,7 +83,7 @@
 				<div class="row short">
 					<em class="tip"></em>
 				</div>
-				<input type="button" id="reg" onclick="ajaxReg();" value="注册">
+				<input type="button" id="reg" onclick="CommonUI().reg();" value="注册">
 			</div>
 			
 		</div>
@@ -98,13 +91,12 @@
 </div>
 
 <div class="footer">
-	<a href="javascript:;">合作伙伴</a>
-	<a href="javascript:;">友情链接</a>
-	<a href="javascript:;">淘宝</a>
-	<a href="javascript:;">关于我们</a>
+	<volist name="Think.config.SITE_LINKS" id="item">
+	<a href="{$item.url}">{$item.title}</a>
+	</volist>
 	<div class="copyright">
 		<a href="javascript:;">Copyright © 2017-2018</a>
-		<a href="javascript:;">藏书阁</a>
+		<a href="javascript:;">{$Think.config.SITE_TITLE} Made By {$Think.config.SITE_AUTHOR}</a>
 	</div>
 </div>
 

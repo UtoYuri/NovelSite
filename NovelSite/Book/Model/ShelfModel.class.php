@@ -56,6 +56,42 @@ class ShelfModel extends Model {
     }
 
     /** 
+     * 获取书籍订单
+     * @param int $user_id 用户ID
+     * @param string $guid 图书GUID
+     * @return bool/array 操作结果
+     */  
+    public function get_order($user_id, $guid){
+        $condition = array(
+                'GUID' => $guid,
+                'is_active' => true,
+            );
+
+        // 获取商品价格信息
+        $novel = $this->table('t_novel_info')->where($condition)->field('uid, price, discount')->select();
+
+        // dump($novel);
+        if (!count($novel)){
+            return false;
+        }
+
+        // 判断是否已经购买
+        // 没有购买则开始购买
+        $condition = array(
+                'novel_id' => $novel[0]['uid'],
+                'user_id' => $user_id,
+            );
+
+        $result = $this->where($condition)->field('uorder, token')->select();
+
+        if (!count($result)){
+            return false;
+        }
+
+        return $result[0];
+    }
+
+    /** 
      * 购买订单
      * @param int $user_id 用户ID
      * @param int $page 页码

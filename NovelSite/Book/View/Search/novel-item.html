@@ -4,7 +4,7 @@
 	<volist name="book_list" id="item">
 	<li>
 		<span>{$item.category}</span>
-		<a href="javascript:;" book-guid="{$item.guid}" book-cover="__ROOT__/Public/Theme/Common/images/poster.png" onclick="purchaseItem(this);">
+		<a href="__ROOT__/index.php/Book/Search/info/guid/{$item.guid}" target="_blank" book-guid="{$item.guid}" book-cover="__ROOT__/Public/Theme/Common/images/poster.png">
 			<img src="{$item.cover}">
 		</a>
 		<p><span>({$item.price}金币)</span>《{$item.title}》{$item.author}</p>

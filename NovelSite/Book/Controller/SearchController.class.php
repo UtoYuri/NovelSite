@@ -47,8 +47,25 @@ class SearchController extends Controller {
             }
         }
 
+
+        if ($err_msg){
+            $this->ajaxReturn(array(
+                'success' => false, 
+                'msg' => $err_msg, 
+                'data' => array(), 
+            ), 'json');
+        }
+
         // 创建小说模型
         $book_model = D('Book');
+
+        if (strlen($guid) == 0){
+            $this->ajaxReturn(array(
+                'success' => false, 
+                'msg' => '错误的GUID', 
+                'data' => array(), 
+            ), 'json');
+        }
 
 
         // 获取小说基本信息
@@ -58,19 +75,29 @@ class SearchController extends Controller {
         // 如果登录则获取用户对该书的阅读笔记
         if (!$err_msg){
             // 创建阅读笔记模型
-            $note_model = D('Note');
-            $notes = $note_model->get_notes($user_id, $guid);
+            // $note_model = D('Note');
+            // $notes = $note_model->get_notes($user_id, $guid);get_order
+            // 创建阅读模型
+            $read_model = D('Read');
+            $user_level = $read_model->get_user_level($user_id);
+            $readed_words = $read_model->get_readed_words($user_id);
+            // 创建书架模型
+            $shelf_model = D('Shelf');
+            $order = $shelf_model->get_order($user_id, $guid);
+            
             $log_status = true;
         }else{
-            $notes = $err_msg;
+            // $notes = array();
             $log_status = false;
         }
 
         // 模板赋值并展示
-        $this->assign('book_info', $book_info);
+        $this->assign('book_info', $book_info[0]);
         $this->assign('book_chapters', $book_chapters);
-        $this->assign('log_status', $log_status);
-        $this->assign('notes', $notes);
+        // $this->assign('notes', $notes);
+        $this->assign('order', !$order?null:$order);
+        $this->assign('user_level', $user_level);
+        $this->assign('readed_words', $readed_words);
         $this->show();
     }
 

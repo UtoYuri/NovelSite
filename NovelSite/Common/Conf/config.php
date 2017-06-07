@@ -1,5 +1,18 @@
 <?php
 return array(
+
+    /* 网站设置 */
+    'SITE_TITLE'            =>  '藏书阁',       // 标题
+    'SITE_SUBTITLE'         =>  '嫩头青的藏书阁',       // 副标题
+    'SITE_AUTHOR'           =>  '藏书小组',       // 作者
+    'SITE_KEY'              =>  '藏书阁，海量小说在线观看。',       // 关键字
+    'SITE_DESC'             =>  '藏书阁，海量小说在线观看。 - 藏书小组出品',       // 描述
+    'SITE_LINKS'            =>  array(  // 友情链接
+        array('title' => '友情链接', 'url' => '#'),
+        array('title' => '淘宝店', 'url' => '#'),
+        array('title' => '关于我们', 'url' => '#'),
+    ),
+    
     /* Cookie设置 */
     'COOKIE_EXPIRE'         =>  7,       // Cookie有效期
 

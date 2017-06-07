@@ -37,6 +37,17 @@ class ReadController extends Controller {
             }
         }
 
+        // 用户验证出错
+        if ($err_msg){
+            $this->ajaxReturn(array(
+                    'success' => false, 
+                    'msg' => $err_msg, 
+                    'data' => array(
+                            'redirect' => U('/User/Reg/reg'), 
+                        ), 
+                ), 'json');
+        }
+
         // 创建书架模型
         $shelf_model = D('Shelf');
 
@@ -59,10 +70,22 @@ class ReadController extends Controller {
             $book_model->post_read_record($user_id, $guid);
         }
 
-        // 绑定数据并显示
-        $this->assign('err_msg', $err_msg);
-        $this->assign('chapter_info', $chapter_info);
-        $this->show();
+        // 用户验证出错
+        if ($err_msg){
+            $this->ajaxReturn(array(
+                    'success' => false, 
+                    'msg' => $err_msg, 
+                    'data' => array(
+                            'redirect' => U('/User/Reg/reg'), 
+                        ), 
+                ), 'json');
+        }
+
+        $this->ajaxReturn(array(
+                'success' => true, 
+                'msg' => '获取成功', 
+                'data' => $chapter_info[0]['content'], 
+            ), 'json');
     }
 
     /** 

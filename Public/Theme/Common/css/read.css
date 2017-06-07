@@ -1,0 +1,140 @@
+/*主体开始*/
+.container{
+    /*height: 550px;*/
+    /*height: 100%;*/
+}
+.content{
+    width: 100%;
+    min-width: 960px;
+    position: absolute;
+	top: 65px;
+	bottom: 0;
+}
+.controller-main{
+	position: absolute;
+	left: 0;
+	width: 300px;
+	height: 100%;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	background-color: #F9F9F9;
+    box-shadow: 2px 0 4px #ddd;
+}
+.controller-main li{
+	list-style: none;
+}
+.controller-main .chapters{
+	height: 100%;
+	clear: both;
+	display: block;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.controller-main .chapters span{
+	display: block;
+	margin: 10px;
+	color: #000;
+}
+.controller-main .chapters li{
+	padding: 5px 10px;
+}
+.controller-main .chapters li a{
+	padding: 3px 10px;
+	font-size: 14px;
+	color: #333;
+	display: block;
+    box-shadow: 2px 0 6px #aaa;
+}
+.controller-main .chapters li a.choosen{
+	background-color: #ccc;
+}
+.controller-main .chapters li a:hover{
+	background-color: #ccc;
+	transition: background-color 0.3s;
+}
+.reader-main{
+	position: absolute;
+	left: 305px;
+	right: 0;
+	height: 100%;
+	overflow-y: scroll;
+}
+.reader-main .detail{
+	/*display: none;*/
+	background-color: #F9F9F9;
+	height: 100%;
+	margin: 0 20px;
+}
+.reader-main .detail li{
+	list-style: none;
+}
+.reader-main .detail .nav{
+	margin-bottom: 15px;
+	display: block;
+	background-color: #ccc;
+	padding: 5px 20px;
+}
+.reader-main .detail .info .left,
+.reader-main .detail .info .right{
+	float: left;
+	margin-left: 20px;
+	margin-bottom: 10px;
+}
+.reader-main .detail .info .left{
+	min-width: 120px;
+}
+.reader-main .detail .info .right li{
+	margin: 3px auto;
+}
+.reader-main .detail .info .right li span{
+	font-size: 14px;
+	padding: 0 10px;
+}
+.reader-main .detail .info .right li a{
+	display: inline-block;
+	margin-top: 10px;
+	padding: 5px 10px;
+	border-radius: 3px;
+    box-shadow: 0 0 6px #aaa;
+    color: #000;
+}
+.reader-main .detail .info .right li a:hover{
+	background-color: #ccc;
+	transition: background-color 0.3s;
+}
+.reader-main .detail .info .description{
+	margin-bottom: 15px;
+	clear: both;
+}
+.reader-main .detail .info .description p{
+	text-indent: 20px;
+	font-size: 15px;
+	margin: 8px 20px;
+	line-height: 24px;
+}
+.reader-main .detail .notes ul li{
+	padding: 5px 10px;
+	margin: 10px 20px;
+    box-shadow: 0 1px 2px #aaa;
+}
+.reader-main .detail .notes ul li .meta{
+	text-align: right;
+	font-size: 14px;
+	color: #555;
+}
+.reader-main .chapter{
+	display: none;
+	height: 100%;
+	margin: 0 20px;
+}
+.reader-main .chapter p{
+	margin: 20px;
+	line-height: 24px;
+}
+/*主体结束*/
+
+/*登录注册框调整开始*/
+.log-panel{
+	display: none;
+}
+/*登录注册框调整结束*/

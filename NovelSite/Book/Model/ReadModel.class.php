@@ -44,7 +44,7 @@ class ReadModel extends Model {
                 'user_id' => $user_id, 
                 'chapter_id' => $result[0]['uid'], 
             );
-        if ((int)$this->where($condition)->count() == 0){
+        if ((int)$this->where($data)->count() == 0){
             $result = $this->add($data);
         }else{
             $result = true;

@@ -1,4 +1,176 @@
-{$book_info|dump}
-{$book_chapters|dump}
-{$notes|dump}
-{$log_status|dump}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{$book_info.title} - 在线阅读</title>
+	<meta name="key" content="{$Think.config.SITE_KEY}">
+	<meta name="description" content="{$Think.config.SITE_DESC}">
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+	<link rel="shortcut icon" href="__ROOT__/Public/Theme/Common/images/logo.png">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Theme/Common/css/common.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Theme/Common/css/read.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Theme/Common/css/progress.min.css">
+
+	<script src="__ROOT__/Plugin/jquery.min.js"></script>
+	<script src="__ROOT__/Plugin/progress.min.js"></script>
+	<script type="text/javascript">
+		ROOT 	= "__ROOT__";
+		INDEX 	= "__ROOT__/index.php";
+	</script>
+	<script src="__ROOT__/Public/Theme/Common/js/AjaxItemsGetter.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/AccountManager.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/CommonUI.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/ReaderUI.js"></script>
+
+</head>
+<body>
+<div class="header">
+	<div class="header-main">
+		<ul class="nav">
+			<li><a href="javascript:;" class="title">{$Think.config.SITE_TITLE}</a></li>
+			<li>
+				<a href="javascript:;" onmouseover="CommonUI().zfbPanelShow();" onmouseout="CommonUI().zfbPanelHide();">赞助我们</a>
+				<div class="hover-content zfb"><i></i>
+					<img class="logo" src="__ROOT__/Public/Theme/Common/images/logo.png" alt="">
+					<h1>{$Think.config.SITE_AUTHOR}</h1>
+					<p>{$Think.config.SITE_SUBTITLE}</p>
+					<img class="ewm" src="__ROOT__/Public/Theme/Common/images/qr.png" alt="">
+					<p class="is">- 支付宝 -</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="container">
+	<div class="index">
+		<div class="index-main">
+			<ul class="nav">
+				<li><a href="__ROOT__/index.php" class="title">{$Think.config.SITE_TITLE}</a></li>
+			</ul>
+			<div class="user-panel">
+				<if condition="$Think.session.mail neq null">
+					<a href="javascript:;">Lv.(<span class="num">{$user_level}</span>)</a>
+					<a href="javascript:;">成长值(<span class="num">{$readed_words}</span>)</a>
+					<a href="javascript:;" class="uname">
+						{$Think.session.mail|substr=0,30}
+						<span class="logout" onclick="ajaxLogout();">注销</span>
+					</a>
+				<else />
+					<a href="{:U('/User/Login')}">登录</a>
+					<a href="{:U('/User/Reg')}">注册</a>
+				</if>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="controller-main">
+			<div class="chapters">
+				<span>所有章节</span>
+				<ul>
+					<volist name="book_chapters" id="item">
+					<li><a href="javascript:;" chapter-guid="{$item.guid}" onclick="ReaderUI().read(this)">{$item.title}</a></li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+		<div class="reader-main">
+			<div class="detail">
+				<div class="info">
+					<span class="nav">{$book_info.title}</span>
+					<div class="left">
+						<img src="{$book_info.cover}">
+					</div>
+					<div class="right">
+						<ul>
+							<li>类别：<span>{$book_info.category}</span></li>
+							<li>作者：<span>{$book_info.author}</span></li>
+							<li>价格：<span style="color: #c44;">{$book_info.price}</span></li>
+							<li>折扣：<span style="color: #c44;">{$book_info.discount}</span></li>
+							<li>
+								<if condition="$order neq null">
+								<a href="javascript:;" book-guid="{$book_info.guid}" book-order="{$order.uorder}" book-token="{$order.token}" chapter-guid="{$book_chapters[0].guid}" onclick="$('.controller-main .chapters ul li:eq(0)').find('a').addClass('choosen');ReaderUI().read(this);" id="read">开始阅读</a>
+								<else />
+								<a href="javascript:;" book-guid="{$book_info.guid}" chapter-guid="{$book_chapters[0].guid}" onclick="ReaderUI().purchaseItem(this)">点击购买</a>
+								</if>
+							</li>
+						</ul>
+					</div>
+					<div class="description">{$book_info.description}</div>
+				</div>
+				<!-- <div class="notes">
+					<span class="nav">阅读笔记</span>
+					<ul>
+						<volist name="notes" id="item">
+						<li>
+							<div class="note">
+								<p>{$item.notes}</p>
+							</div>
+							<div class="meta">
+								<span>{$item.post_time}</span>
+							</div>
+						</li>
+						</volist>
+					</ul>
+				</div> -->
+			</div>
+			<div class="chapter"></div>
+		</div>
+	</div>
+
+	<div class="log-panel">
+		<div class="form">
+			<div class="form-option">
+				<a href="javascript:;">登录</a>
+				<a href="javascript:;" class="unchoosen">注册</a>
+			</div>
+			<div class="form-login">
+				<div class="row">
+					<label for="user">邮箱</label>
+					<input type="text" id="user" placeholder="邮箱">
+				</div>
+				<div class="row">
+					<label for="password">登录密码</label>
+					<input type="password" id="password" placeholder="登录密码">
+				</div>
+				<div class="row short">
+					<a href="javascript:;" class="btn-forget">忘记密码</a>
+					<em class="tip"></em>
+				</div>
+				<input type="button" id="login" value="登录">
+			</div>
+			<div class="form-reg">
+				<div class="row">
+					<label for="phone">邮箱</label>
+					<input type="text" id="phone" placeholder="邮箱">
+				</div>
+				<div class="row">
+					<label for="vertify">验证码</label>
+					<input type="text" id="vertify" placeholder="验证码">
+					<input type="button" id="get_vertify" value="发送验证码">
+				</div>
+				<div class="row">
+					<label for="password">登录密码</label>
+					<input type="password" id="password" placeholder="登录密码(6-20位)">
+				</div>
+				<input type="button" id="reg" value="注册">
+			</div>
+			
+		</div>
+	</div>
+</div>
+<div class="footer">
+	<volist name="Think.config.SITE_LINKS" id="item">
+	<a href="{$item.url}">{$item.title}</a>
+	</volist>
+	<div class="copyright">
+		<a href="javascript:;">Copyright © 2017-2018</a>
+		<a href="javascript:;">{$Think.config.SITE_TITLE} Made By {$Think.config.SITE_AUTHOR}</a>
+	</div>
+</div>
+</body>
+</html>
