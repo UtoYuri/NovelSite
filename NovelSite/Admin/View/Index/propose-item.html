@@ -1,0 +1,14 @@
+<if condition="count($propose) eq 0">
+	没有更多
+<else />
+	<volist name="propose" id="item">
+	<tr>
+		<td><input type="checkbox" name="choose"></td>
+		<td>{$item.uid}</td>
+		<td>{$item.user_id}</td>
+		<td>{$item.tag}</td>
+		<td>{$item.message}</td>
+		<td>{$item.post_time}</td>
+	</tr>
+	</volist>
+</if>

@@ -5,6 +5,20 @@ use Think\Model;
 class ShelfModel extends Model {
     protected $tableName = 'purchase_token'; 
 
+
+    /** 
+     * 获取订单总览信息
+     * @return array 操作结果
+     */  
+    public function order_dashboard_map(){
+        $total = (int)$this->count();
+        $reg_tswk = (int)$this->where('DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= purchase_time')->count();
+        return array(
+                'total' => $total, 
+                'order_tswk' => $reg_tswk, 
+            );
+    }
+
     /** 
      * 商品购买
      * @param int $user_id 用户ID
@@ -44,10 +58,10 @@ class ShelfModel extends Model {
             $this->add($data);
 
             // 修改余额
-            $condition = array(
+            $u_condition = array(
                     'uid' => $user_id,
                 );
-            $pocket = $this->table('t_user')->where($condition)->field('pocket')->select()[0]['pocket'] - $cost;
+            $pocket = $this->table('t_user')->where($u_condition)->field('pocket')->select()[0]['pocket'] - $cost;
             $this->execute("UPDATE t_user SET pocket = ".$pocket." WHERE uid = '".$user_id."'");
         }
         $result = $this->table('t_purchase_token')->where($condition)->field('uorder, token')->select();
@@ -98,10 +112,14 @@ class ShelfModel extends Model {
      * @param int $num 页面容量
      * @return array 购买记录
      */  
-    public function get_order_list($user_id, $page = 1, $num = 20){
-        $condition = array(
-                'user_id' => $user_id,
-            );
+    public function get_order_list($user_id = -1, $page = 1, $num = 20){
+        if ($user_id == -1){
+            $condition = array();
+        }else{
+            $condition = array(
+                    'user_id' => $user_id,
+                );
+        }
 
         // 获取购买信息
         $result = $this->where($condition)

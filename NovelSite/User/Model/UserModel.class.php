@@ -5,6 +5,19 @@ use Think\Model;
 class UserModel extends Model {
     protected $tableName = 'user'; 
 
+    /** 
+     * 获取用户总览信息
+     * @return array 操作结果
+     */  
+    public function user_dashboard_map(){
+        $total = (int)$this->count();
+        $reg_tswk = (int)$this->where('DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= reg_time')->count();
+        return array(
+                'total' => $total, 
+                'reg_tswk' => $reg_tswk, 
+            );
+    }
+
 	/** 
 	 * 创建用户
      * @param int $mail_id 邮箱编号
@@ -132,4 +145,33 @@ class UserModel extends Model {
         return $pocket;
     }
 
+    /** 
+     * 用户类型
+     * @param int $user_id 用户编号
+     * @return string 用户类型
+     */  
+    public function get_user_type($user_id){
+        $condition = array(
+                'uid' => $user_id, 
+            );
+
+        // 获取用户类型
+        $is_admin = (float)$this->where($condition)->getField('is_admin');
+        return $is_admin ? 'admin' : 'user';
+    }
+
+
+    /** 
+     * 分页获取用户列表
+     * @param int $page 页码
+     * @param int $num 页面容量
+     * @return array 用户
+     */  
+    public function get_user($page = 1, $num = 20){
+        // 获取留言内容
+        $result = $this->join('LEFT JOIN t_mail ON t_mail.uid = t_user.umail_id')
+                    ->field('t_mail.umail, t_user.*')
+                    ->order('uid ASC')->page($page, $num)->select();
+        return $result;
+    }
 }

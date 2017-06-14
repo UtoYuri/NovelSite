@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>管理员面板 - {$Think.config.SITE_TITLE}</title>
+	<meta name="key" content="{$Think.config.SITE_KEY}">
+	<meta name="description" content="{$Think.config.SITE_DESC}">
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+	<link rel="shortcut icon" href="__ROOT__/Public/Theme/Common/images/logo.png">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Theme/Common/css/common.css">
+	<link rel="stylesheet" type="text/css" href="__ROOT__/Public/Theme/Common/css/admin.css">
+
+	<script src="__ROOT__/Plugin/jquery.min.js"></script>
+	<script type="text/javascript">
+		ROOT 	= "__ROOT__";
+		INDEX 	= "__ROOT__/index.php";
+	</script>
+	<script src="__ROOT__/Public/Theme/Common/js/AccountManager.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/AjaxItemsGetter.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/CommonUI.js"></script>
+	<script src="__ROOT__/Public/Theme/Common/js/AdminUI.js"></script>
+
+	<script type="text/javascript">
+		$(function(){
+
+			AdminUI().initPanel(); 
+
+		});
+	</script>
+</head>
+<body>
+<div class="header">
+	<div class="header-main">
+		<ul class="nav">
+			<li><a href="__ROOT__/index.php" class="title">{$Think.config.SITE_TITLE}</a></li>
+			<li>
+				<a href="javascript:;" onmouseover="CommonUI().zfbPanelShow();" onmouseout="CommonUI().zfbPanelHide();">赞助我们</a>
+				<div class="hover-content zfb"><i></i>
+					<img class="logo" src="__ROOT__/Public/Theme/Common/images/logo.png" alt="">
+					<h1>{$Think.config.SITE_AUTHOR}</h1>
+					<p>{$Think.config.SITE_SUBTITLE}</p>
+					<img class="ewm" src="__ROOT__/Public/Theme/Common/images/qr.png" alt="">
+					<p class="is">- 支付宝 -</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="container">
+	<div class="content">
+		<div class="category-main">
+			<ul class="ucate">
+				<li><a href="javascript:;" onclick="AdminUI().openPanel(this);" panel-name="dashboard" class="choosen default">总览</a></li>
+				<li><a href="javascript:;" onclick="AdminUI().openPanel(this);" panel-name="user">用户管理</a></li>
+				<li><a href="javascript:;" onclick="AdminUI().openPanel(this);" panel-name="book">书籍管理</a></li>
+				<li><a href="javascript:;" onclick="AdminUI().openPanel(this);" panel-name="propose">留言板管理</a></li>
+				<li><a href="javascript:;" onclick="AdminUI().openPanel(this);" panel-name="order">订单管理</a></li>
+			</ul>
+		</div>
+		<div class="waterfall-main">
+			
+		</div>
+	</div>
+</div>
+
+<div class="footer">
+	<volist name="Think.config.SITE_LINKS" id="item">
+	<a href="{$item.url}">{$item.title}</a>
+	</volist>
+	<div class="copyright">
+		<a href="javascript:;">Copyright © 2017-2018</a>
+		<a href="javascript:;">{$Think.config.SITE_TITLE} Made By {$Think.config.SITE_AUTHOR}</a>
+	</div>
+</div>
+
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>{$book_info.title} - 在线阅读</title>
-	<meta name="key" content="{$Think.config.SITE_KEY}">
-	<meta name="description" content="{$Think.config.SITE_DESC}">
+	<meta name="key" content="{$book_info.meta_key}">
+	<meta name="description" content="{$book_info.meta_desc}">
 	<style type="text/css">
 		*{
 			padding: 0;
@@ -56,9 +56,9 @@
 				<if condition="$Think.session.mail neq null">
 					<a href="javascript:;">Lv.(<span class="num">{$user_level}</span>)</a>
 					<a href="javascript:;">成长值(<span class="num">{$readed_words}</span>)</a>
+					<a href="javascript:;">余额(<span class="num">{$pocket}g</span>)</a>
 					<a href="javascript:;" class="uname">
 						{$Think.session.mail|substr=0,30}
-						<span class="logout" onclick="ajaxLogout();">注销</span>
 					</a>
 				<else />
 					<a href="{:U('/User/Login')}">登录</a>
@@ -119,47 +119,6 @@
 				</div> -->
 			</div>
 			<div class="chapter"></div>
-		</div>
-	</div>
-
-	<div class="log-panel">
-		<div class="form">
-			<div class="form-option">
-				<a href="javascript:;">登录</a>
-				<a href="javascript:;" class="unchoosen">注册</a>
-			</div>
-			<div class="form-login">
-				<div class="row">
-					<label for="user">邮箱</label>
-					<input type="text" id="user" placeholder="邮箱">
-				</div>
-				<div class="row">
-					<label for="password">登录密码</label>
-					<input type="password" id="password" placeholder="登录密码">
-				</div>
-				<div class="row short">
-					<a href="javascript:;" class="btn-forget">忘记密码</a>
-					<em class="tip"></em>
-				</div>
-				<input type="button" id="login" value="登录">
-			</div>
-			<div class="form-reg">
-				<div class="row">
-					<label for="phone">邮箱</label>
-					<input type="text" id="phone" placeholder="邮箱">
-				</div>
-				<div class="row">
-					<label for="vertify">验证码</label>
-					<input type="text" id="vertify" placeholder="验证码">
-					<input type="button" id="get_vertify" value="发送验证码">
-				</div>
-				<div class="row">
-					<label for="password">登录密码</label>
-					<input type="password" id="password" placeholder="登录密码(6-20位)">
-				</div>
-				<input type="button" id="reg" value="注册">
-			</div>
-			
 		</div>
 	</div>
 </div>

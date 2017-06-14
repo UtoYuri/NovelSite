@@ -5,6 +5,20 @@ use Think\Model;
 class ProposeModel extends Model {
     protected $tableName = 'propose'; 
 
+
+    /** 
+     * 获取留言总览信息
+     * @return array 操作结果
+     */  
+    public function propose_dashboard_map(){
+        $total = (int)$this->count();
+        $reg_tswk = (int)$this->where('DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= post_time')->count();
+        return array(
+                'total' => $total, 
+                'post_tswk' => $reg_tswk, 
+            );
+    }
+
 	/** 
 	 * 发布留言
      * @param int $user_id 用户ID

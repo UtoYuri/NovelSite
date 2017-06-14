@@ -1,0 +1,47 @@
+<div class="data">
+	<div class="form-search">
+		<input type="text" id="key" placeholder="书名/作者">
+		<a href="javascript:;" id="search" onclick="IndexUI().setSearchRule();"></a>
+		<div style="clear: both;"></div>
+	</div>
+	<table cellspacing="0">
+		<tr>
+			<th><input type="checkbox" name="choose"></th>
+			<th>图书GUID</th>
+			<th changeable="true" column="title">书名</th>
+			<th>类别</th>
+			<th changeable="true" column="author">作者</th>
+			<th changeable="true" column="price">价格</th>
+			<th changeable="true" column="discount">折扣</th>
+			<th>上传时间</th>
+		</tr>
+	</table>
+</div>
+<div class="opt-panel">
+	<a href="javascript:;">下架</a>
+	<a href="javascript:;" onclick="AdminUI().toggleAdapter()">编辑</a>
+</div>
+<div id="data-adapter">
+	<table cellspacing="0">
+		<tr>
+			<th>图书GUID</th>
+			<th>书名</th>
+			<th>类别</th>
+			<th>作者</th>
+			<th>价格</th>
+			<th>折扣</th>
+			<th>上传时间</th>
+			<th>操作</th>
+		</tr>
+<!-- 					<tr>
+			<td>4DC1E7E846</td>
+			<td><input type="text" name="0" value="侠客风云传"></td>
+			<td>武侠</td>
+			<td><input type="text" name="0" value="金庸"></td>
+			<td><input type="text" name="0" value="2"></td>
+			<td><input type="text" name="0" value="1"></td>
+			<td>2017-01-01 00:00:00</td>
+			<td><a href="javascript:;">保存</a></td>
+		</tr> -->
+	</table>
+</div>

@@ -5,6 +5,18 @@ use Think\Model;
 class BookModel extends Model {
     protected $tableName = 'novel_info'; 
 
+
+    /** 
+     * 获取图书总览信息
+     * @return array 操作结果
+     */  
+    public function book_dashboard_map(){
+        $total = (int)$this->count();
+        return array(
+                'total' => $total, 
+            );
+    }
+
     /** 
      * 分页图书检索列表
      * @param int $page 页码

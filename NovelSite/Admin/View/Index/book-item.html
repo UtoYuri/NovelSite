@@ -1,0 +1,16 @@
+<if condition="count($book) eq 0">
+	没有更多
+<else />
+	<volist name="book" id="item">
+	<tr>
+		<td><input type="checkbox" name="choose"></td>
+		<td>{$item.guid}</td>
+		<td>{$item.title}</td>
+		<td>{$item.category}</td>
+		<td>{$item.author}</td>
+		<td>{$item.price}</td>
+		<td>{$item.discount}</td>
+		<td>{$item.update_time}</td>
+	</tr>
+	</volist>
+</if>

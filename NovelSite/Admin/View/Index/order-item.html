@@ -1,0 +1,14 @@
+<if condition="count($order) eq 0">
+	没有更多
+<else />
+	<volist name="order" id="item">
+	<tr>
+		<td><input type="checkbox" name="choose"></td>
+		<td>{$item.uorder}</td>
+		<td>{$item.token}</td>
+		<td>{$item.title}</td>
+		<td>{$item.price}</td>
+		<td>{$item.purchase_time}</td>
+	</tr>
+	</volist>
+</if>

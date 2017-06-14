@@ -74,7 +74,9 @@
 		<div class="index-main">
 			<ul class="nav">
 				<li><a href="javascript:;" class="title">{$Think.config.SITE_TITLE}</a></li>
-				<!-- <li><a href="javascript:;" title="建设中">铁头BBS</a></li> -->
+				<if condition="$user_type eq 'admin'">
+					<li><a href="{:U('/Admin/Index')}">后台管理</a></li>
+				</if>
 			</ul>
 			<div class="user-panel">
 				<if condition="$Think.session.mail neq null">
@@ -106,46 +108,6 @@
 		</div>
 		<div class="waterfall-main">
 			<ul class="movie-list"></ul>
-		</div>
-	</div>
-	<div class="log-panel">
-		<div class="form">
-			<div class="form-option">
-				<a href="javascript:;">登录</a>
-				<a href="javascript:;" class="unchoosen">注册</a>
-			</div>
-			<div class="form-login">
-				<div class="row">
-					<label for="user">邮箱</label>
-					<input type="text" id="user" placeholder="邮箱">
-				</div>
-				<div class="row">
-					<label for="password">登录密码</label>
-					<input type="password" id="password" placeholder="登录密码">
-				</div>
-				<div class="row short">
-					<a href="javascript:;" class="btn-forget">忘记密码</a>
-					<em class="tip"></em>
-				</div>
-				<input type="button" id="login" value="登录">
-			</div>
-			<div class="form-reg">
-				<div class="row">
-					<label for="user">邮箱</label>
-					<input type="text" id="user" placeholder="邮箱">
-				</div>
-				<div class="row">
-					<label for="vertify">验证码</label>
-					<input type="text" id="vertify" placeholder="验证码">
-					<input type="button" id="get_vertify" value="发送验证码">
-				</div>
-				<div class="row">
-					<label for="password">登录密码</label>
-					<input type="password" id="password" placeholder="登录密码(6-20位)">
-				</div>
-				<input type="button" id="reg" value="注册">
-			</div>
-			
 		</div>
 	</div>
 </div>

@@ -35,6 +35,9 @@ class IndexController extends Controller {
         // 获取账户余额
         $pocket = $user_model->get_user_pocket($user_id);
 
+        // 获取用户类型
+        $user_type = $user_model->get_user_type($user_id);
+
         // 创建站内信模型
         $message_model = D('Message/Message');
     	// 获取消息列表
@@ -42,7 +45,8 @@ class IndexController extends Controller {
 
     	// 绑定消息并展示主页
     	$this->assign('message_list', $message_list);
-    	$this->assign('pocket', $pocket);
+        $this->assign('pocket', $pocket);
+    	$this->assign('user_type', $user_type);
         $this->show();
     }
 }

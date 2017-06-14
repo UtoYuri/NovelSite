@@ -77,6 +77,9 @@ class SearchController extends Controller {
             // 创建阅读笔记模型
             // $note_model = D('Note');
             // $notes = $note_model->get_notes($user_id, $guid);get_order
+            
+            // 获取账户余额
+            $pocket = $user_model->get_user_pocket($user_id);
             // 创建阅读模型
             $read_model = D('Read');
             $user_level = $read_model->get_user_level($user_id);
@@ -96,6 +99,7 @@ class SearchController extends Controller {
         $this->assign('book_chapters', $book_chapters);
         // $this->assign('notes', $notes);
         $this->assign('order', !$order?null:$order);
+        $this->assign('pocket', $pocket);
         $this->assign('user_level', $user_level);
         $this->assign('readed_words', $readed_words);
         $this->show();

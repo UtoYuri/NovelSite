@@ -1,0 +1,13 @@
+<if condition="count($user) eq 0">
+	没有更多
+<else />
+	<volist name="user" id="item">
+	<tr>
+		<td><input type="checkbox" name="choose"></td>
+		<td user-id="{$item.uid}">{$item.uid}</td>
+		<td>{$item.umail}</td>
+		<td>{$item.pocket}g</td>
+		<td>{$item.reg_time}</td>
+	</tr>
+	</volist>
+</if>
